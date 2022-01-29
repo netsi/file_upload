@@ -2,6 +2,7 @@ package file
 
 import (
 	internal_file "file_upload/internal/file"
+	"file_upload/internal/image"
 	"file_upload/internal/responses"
 	http_handler "file_upload/pkg/http-handler"
 	"fmt"
@@ -51,6 +52,12 @@ func (h *handler) HandleUpload(r *http.Request) *http_handler.Response {
 		log.Printf("failed to read the file with error: %s", err.Error())
 		return http_handler.JSON(http.StatusBadRequest, &responses.ErrorResponse{
 			Message: "failed to read the file",
+		})
+	}
+
+	if !image.IsSupportedImage(fileBytes) {
+		return http_handler.JSON(http.StatusBadRequest, &responses.ErrorResponse{
+			Message: fmt.Sprintf("unsupported image type, the API supports only %s", image.GetSupportedTypes()),
 		})
 	}
 
