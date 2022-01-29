@@ -75,7 +75,7 @@ func Test_handler_HandleUpload(t *testing.T) {
 					},
 				},
 			},
-			expectedStatusCode: http.StatusNotFound,
+			expectedStatusCode: http.StatusBadRequest,
 			expectedResponse:   []byte("{\"message\":\"`file` is a required field\"}"),
 		},
 		{
