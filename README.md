@@ -48,7 +48,6 @@ project root folder. Then you can use `make stop` to stop the application.
 < Content-Type: application/octet-stream
 < Date: Sat, 29 Jan 2022 19:05:17 GMT
 < Transfer-Encoding: chunked
-< 
 ```
 
 #### failure
