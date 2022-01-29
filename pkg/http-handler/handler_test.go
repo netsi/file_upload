@@ -1,7 +1,6 @@
 package http_handler_test
 
 import (
-	"bytes"
 	"file_upload/internal/test"
 	http_handler "file_upload/pkg/http-handler"
 	"net/http"
@@ -76,12 +75,9 @@ func Test_handler_Handle(t *testing.T) {
 
 			h.Handle(responseWriter, &http.Request{Method: tt.requestMethod})
 
-			if responseWriter.StatusCode != tt.expectedStatusCode {
-				t.Errorf("expected %d status code and received %d", tt.expectedStatusCode, responseWriter.StatusCode)
-			}
-			if res := bytes.Compare(responseWriter.Output, tt.expectedResponse); res != 0 {
-				t.Errorf("expected %s output and received %s", tt.expectedResponse, responseWriter.Output)
-			}
+			test.AssertInt(t, tt.expectedStatusCode, responseWriter.StatusCode)
+			test.AssertByteArray(t, tt.expectedResponse, responseWriter.Output)
+
 			for expectedHeaderKey, expectedHeaderVal := range tt.expectedHeaders {
 				if responseWriter.Header().Get(expectedHeaderKey) != expectedHeaderVal {
 					t.Errorf("expected %s header with value %s but received received %s", expectedHeaderKey, expectedHeaderVal, responseWriter.Output)
